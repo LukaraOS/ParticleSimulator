@@ -14,22 +14,29 @@ class Particle:
         self.size = size
         self.colour = (0, 0, 255)
         self.thickness = 1
+
     def display(self):
         pygame.draw.circle(screen, self.colour, (self.x, self.y), self.size, self.thickness)
 
-particles_list = []
-particles_number = 10
-for i in range(particles_number):
-    size = random.randint(10,20)
-    new_particle = Particle(random.randint(size,width-size),random.randint(size,height-size),size)
-    particles_list.append(new_particle)
+    def move(self):
+        self.x += 1
+        self.y += 1
 
-for particle in particles_list:
-    particle.display()
+    def update(self):
+       self.display()
+       self.move()
+
+first_particle = Particle(100,100,10)
+
 
 pygame.display.flip()
 running = True
+
 while running:
+  pygame.display.flip()
+  screen.fill(background_colour)
+  first_particle.update()
+
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
