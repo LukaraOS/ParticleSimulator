@@ -20,6 +20,7 @@ class Particle:
 
     def move(self):
         self.x += 1
+        self.y += 1
 
     def update(self):
        self.display()
