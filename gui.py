@@ -1,5 +1,6 @@
 import pygame
 import random 
+import math 
 
 background_colour = (255,255,255)
 (width, height) = (1200, 800)
@@ -22,10 +23,22 @@ class Particle:
         self.x += 1
         self.y += 1
 
+    def moveTowardMouse(self,x,y):
+       direction = self.findDir(x,y)
+       self.x += direction[0]
+       self.y += direction[1]
+       
     def update(self):
        self.display()
-       self.move()
+       position = pygame.mouse.get_pos()
+       self.moveTowardMouse(position[0],position[1])
 
+    def findDir(self,x,y):
+       delta_x = x - self.x
+       delta_y = y - self.y
+
+       return (1/50 * delta_x, 1/50 * delta_y)
+       
 def refresh_screen(particle):
    pygame.display.flip()
    screen.fill(background_colour)
