@@ -1,5 +1,6 @@
 import pygame
 import random 
+import math 
 
 background_colour = (255,255,255)
 (width, height) = (1200, 800)
@@ -22,13 +23,33 @@ class Particle:
         self.x += 1
         self.y += 1
 
+    def moveTowardMouse(self,x,y):
+       direction = self.findDir(x,y)
+       self.x += direction[0]
+       self.y += direction[1]
+       
     def update(self):
        self.display()
-       self.move()
+       position = pygame.mouse.get_pos()
+       self.moveTowardMouse(position[0],position[1])
+
+    def findDir(self,a,b):
+       """Find direction towards the point pos
+        returns the polar coordonates (p,q) towards that point"""
+       distA = a-self.x
+       distB = math.sqrt((b+self.y)**2+(a+self.y)**2)
+       angle = math.acos(distA/distB)
+       if b<self.y:
+          angle = -angle
+       return (math.cos(angle),math.sin(angle))
+
+
 
 first_particle = Particle(100,100,10)
 
 
+   
+   
 pygame.display.flip()
 running = True
 
@@ -36,6 +57,7 @@ while running:
   pygame.display.flip()
   screen.fill(background_colour)
   first_particle.update()
+  
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
