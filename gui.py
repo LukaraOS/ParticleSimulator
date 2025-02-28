@@ -30,26 +30,11 @@ class Particle:
        
     def update(self):
        self.display()
-       position = pygame.mouse.get_pos()
-       self.moveTowardMouse(position[0],position[1])
-
-    def findDir(self,a,b):
-       """Find direction towards the point pos
-        returns the polar coordonates (p,q) towards that point"""
-       distA = a-self.x
-       distB = math.sqrt((b+self.y)**2+(a+self.y)**2)
-       angle = math.acos(distA/distB)
-       if b<self.y:
-          angle = -angle
-       return (math.cos(angle),math.sin(angle))
-
-
+       self.move()
 
 first_particle = Particle(100,100,10)
 
 
-   
-   
 pygame.display.flip()
 running = True
 
@@ -57,7 +42,6 @@ while running:
   pygame.display.flip()
   screen.fill(background_colour)
   first_particle.update()
-  
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
