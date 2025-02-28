@@ -26,16 +26,20 @@ class Particle:
        self.display()
        self.move()
 
+def refresh_screen(particle):
+   pygame.display.flip()
+   screen.fill(background_colour)
+   particle.update()
+
 first_particle = Particle(100,100,10)
 
-
-pygame.display.flip()
 running = True
 
 while running:
-  pygame.display.flip()
-  screen.fill(background_colour)
-  first_particle.update()
+  refresh_screen(first_particle)
+
+  position = pygame.mouse.get_pos()
+  print(f"The position of the mouse is -> {position}")
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
