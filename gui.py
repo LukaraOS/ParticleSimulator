@@ -20,7 +20,7 @@ class Particle:
         self.x = x
         self.y = y
         self.size = size
-        self.speed = 5
+        self.speed = 1
         self.angle = 0
 
         self.angle = math.pi / 11
@@ -51,36 +51,55 @@ class Particle:
          self.y = 2 * (boxBorderTop + self.size) - self.y
          self.angle = math.pi - self.angle
 
-    def moveTowardMouse(self,x,y):
-       direction = self.findDir(x,y)
-       self.x += direction[0]
-       self.y += direction[1]
+    def moveTowardMouse(self):
+       position = pygame.mouse.get_pos()
+       if position[0]<boxBorderLeft or position[0]>boxBorderRight or position[1]>boxBorderBot or position[1]<boxBorderTop:
+          self.move()
+       else:
+         self.bounce()
+         self.angle = self.findAngle(position[0],position[1])
+         self.move()
+         #self.x += math.sin(self.angle) * self.speed
+         #self.y -= math.cos(self.angle) * self.speed
        
     def update(self):
        self.display()
        self.bounce()
-       self.move()
+       self.moveTowardMouse()
+
+    def findAngle(self,x,y):
+      """director_Vector = (1,0)
+      dotProduct = x
+      dist = math.sqrt((self.x+x)**2+(self.y+y)**2)
+      angle = math.acos(dotProduct/dist)"""
+
+      direct = (x-self.x,y-self.y) 
+      angle = math.atan2(direct[1],direct[0])
+      return angle
+      
 
     def findDir(self,x,y):
+       """Finds vector toward point x,y"""
        delta_x = x - self.x
        delta_y = y - self.y
 
        return (1/50 * delta_x, 1/50 * delta_y)
        
 def refresh_screen(particle):
-   pygame.display.flip()
-   
-   screen.fill(background_colour)
-   pygame.draw.rect(screen,black,box,1)
+  
    particle.update()
 
 first_particle = Particle(100,100,10)
+second_particle = Particle(200,150,12)
 
 running = True
 
 while running:
   refresh_screen(first_particle)
-   
+  refresh_screen(second_particle)
+  pygame.display.flip()
+  screen.fill(background_colour)
+  pygame.draw.rect(screen,black,box,1)
   position = pygame.mouse.get_pos()
   print(f"The position of the mouse is -> {position}")
 
