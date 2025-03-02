@@ -15,22 +15,12 @@ boxBorderTop = box.top
 boxBorderBot = box.bottom
 boxBorderRight = box.right
 
-class Particle:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
- 
-Particle_List = []
-
 running = True
-
 while running:
 
   pygame.display.flip()
   screen.fill(background_colour)
   pygame.draw.rect(screen,black,box,1)
-  position = pygame.mouse.get_pos()
-  print(f"The position of the mouse is -> {position}")
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
